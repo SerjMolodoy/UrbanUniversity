@@ -18,3 +18,5 @@ age = next_year - year_of_birth
 print('New age:', age)
 is_old = False
 print('Is old:', is_old)
+print()
+print('Всё!')
