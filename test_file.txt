@@ -1,0 +1,3 @@
+text, text, text,
+Text, TEXT, text
+teXT, TeXT, texT
