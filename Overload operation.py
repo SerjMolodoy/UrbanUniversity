@@ -17,29 +17,37 @@ class House:
         return f'Название: {self.name}, Количество этажей: {self.number_of_floors}'
 
     def __eq__(self, other):
-        return self.number_of_floors == other.number_of_floors
+        if isinstance(other.number_of_floors, int) and isinstance(other, House):
+            return self.number_of_floors == other.number_of_floors
 
     def __lt__(self, other):
-        return self.number_of_floors < other.number_of_floors
+        if isinstance(other.number_of_floors, int) and isinstance(other, House):
+            return self.number_of_floors < other.number_of_floors
 
     def __le__(self, other):
-        return self.number_of_floors <= other.number_of_floors
+        if isinstance(other.number_of_floors, int) and isinstance(other, House):
+            return self.number_of_floors <= other.number_of_floors
 
     def __gt__(self, other):
-        return self.number_of_floors > other.number_of_floors
+        if isinstance(other.number_of_floors, int) and isinstance(other, House):
+            return self.number_of_floors > other.number_of_floors
 
     def __ne__(self, other):
-        return self.number_of_floors >= other.number_of_floors
+        if isinstance(other.number_of_floors, int) and isinstance(other, House):
+            return self.number_of_floors >= other.number_of_floors
 
     def __add__(self, value):
-        self.number_of_floors += value
+        if isinstance(value, int):
+            self.number_of_floors += value
         return self
 
-    def __iadd__(self, other):
-        return self + other
+    def __iadd__(self, value):
+        if isinstance(value, int):
+            self.number_of_floors += value
+        return self
 
-    def __radd__(self, other):
-        return self + other
+    def __radd__(self, value):
+        return self.__add__(value)
 
 
 h1 = House('ЖК Эльбрус', 10)
