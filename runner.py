@@ -1,13 +1,14 @@
 class Runner:
-    def __init__(self, name):
+    def __init__(self, name, speed):
+        if not isinstance(name, str):
+            raise TypeError("Name must be a string")
+        if speed < 0:
+            raise ValueError("Speed cannot be negative")
         self.name = name
-        self.distance = 0
-
-    def run(self):
-        self.distance += 10
+        self.speed = speed
 
     def walk(self):
-        self.distance += 5
+        return f"{self.name} is walking at {self.speed} km/h"
 
-    def __str__(self):
-        return self.name
+    def run(self):
+        return f"{self.name} is running at {self.speed} km/h"

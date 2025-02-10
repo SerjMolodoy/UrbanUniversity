@@ -1,0 +1,2 @@
+WARNING: Неверный тип данных для объекта Runner: Name must be a string
+WARNING: Неверная скорость для Runner: Speed cannot be negative
