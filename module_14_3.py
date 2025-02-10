@@ -14,7 +14,7 @@ from module_13_6 import create_inline_keyboard
 logging.basicConfig(level=logging.INFO)
 
 # Инициализация бота и диспетчера
-API_TOKEN = '7785841210:AAFbM2z27UZS4W_PzPi0KEBgd9oEjKEMjJo'  # Ваш токен
+API_TOKEN = 'АПи'  # Ваш токен
 
 # Используем DefaultBotProperties для настройки parse_mode
 bot = Bot(token=API_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
