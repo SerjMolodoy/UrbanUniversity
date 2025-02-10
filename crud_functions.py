@@ -1,7 +1,7 @@
 import sqlite3
 
 
-# Функция для инициализации базы данных и создания таблицы Products
+# Функция для инициализации базы данных и создания таблиц Products и Users
 def initiate_db():
     conn = sqlite3.connect('products.db')
     cursor = conn.cursor()
@@ -16,8 +16,47 @@ def initiate_db():
         )
     ''')
 
+    # Создаем таблицу Users, если она еще не существует
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS Users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            email TEXT NOT NULL,
+            age INTEGER NOT NULL,
+            balance INTEGER NOT NULL DEFAULT 1000
+        )
+    ''')
+
     conn.commit()
     conn.close()
+
+
+# Функция для добавления пользователя в таблицу Users
+def add_user(username, email, age):
+    conn = sqlite3.connect('products.db')
+    cursor = conn.cursor()
+
+    # Добавляем новую запись в таблицу Users
+    cursor.execute('''
+        INSERT INTO Users (username, email, age, balance)
+        VALUES (?, ?, ?, 1000)
+    ''', (username, email, age))
+
+    conn.commit()
+    conn.close()
+
+
+# Функция для проверки наличия пользователя в таблице Users
+def is_included(username):
+    conn = sqlite3.connect('products.db')
+    cursor = conn.cursor()
+
+    # Проверяем, есть ли пользователь с таким именем
+    cursor.execute('SELECT * FROM Users WHERE username = ?', (username,))
+    user = cursor.fetchone()
+
+    conn.close()
+    return user is not None  # Возвращаем True, если пользователь найден, иначе False
 
 
 # Функция для получения всех продуктов из таблицы Products
