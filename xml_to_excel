@@ -1,0 +1,56 @@
+import pandas as pd
+import xml.etree.ElementTree as ET
+import os
+
+# Функция для преобразования XML в DataFrame
+def parse_xml_to_df(xml_file):
+    tree = ET.parse(xml_file)
+    root = tree.getroot()
+
+    data = []
+    for book in root.findall('.//КнПродСтр'):
+        row = {}
+        for elem in book:
+            if elem.tag == 'СвПокуп':
+                for sub_elem in elem:
+                    row[sub_elem.tag] = sub_elem.attrib
+            else:
+                row[elem.tag] = elem.text
+        data.append(row)
+
+    return pd.DataFrame(data)
+
+# Функция для записи DataFrame в Excel
+def write_df_to_excel(df, base_filename, max_rows=500000):
+    num_files = (len(df) // max_rows) + 1
+
+    for i in range(num_files):
+        start_idx = i * max_rows
+        end_idx = start_idx + max_rows
+        chunk = df[start_idx:end_idx]
+
+        filename = f"{base_filename}_{i+1}.xlsx"
+        chunk.to_excel(filename, index=False)
+        print(f"Файл {filename} создан, записано {len(chunk)} строк.")
+
+# Укажите путь к папке, где находится XML-файл
+folder_path = r'C:\Users\9977-00-701\Documents\WB'
+
+# Укажите имя XML-файла
+xml_filename = 'NO_NDS.9_9977_9977_7721546864997750001_20250220_2A57FF2B-E892-4E19-81F8-B215327E8BC1.xml'
+
+# Полный путь к XML-файлу
+xml_file = os.path.join(folder_path, xml_filename)
+
+# Убедитесь, что файл существует
+if not os.path.exists(xml_file):
+    print(f"Файл {xml_file} не найден.")
+else:
+    # Базовое имя для выходных файлов
+    base_filename = os.path.join(folder_path, 'output_file')
+
+    # Преобразование XML в DataFrame
+    df = parse_xml_to_df(xml_file)
+
+    # Запись DataFrame в Excel
+    write_df_to_excel(df, base_filename)
